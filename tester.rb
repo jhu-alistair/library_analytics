@@ -29,9 +29,13 @@
 # puts pfl.retrieve_profile
 
 # require 'yaml'
-# puts YAML.load(File.open('.config/ldap_connection.yaml'))['development']
-
+# attrs = YAML.load(File.open('.config/ldap_connection.yaml'))['development']
+# puts attrs
+#
+# tidy = {'host'=>"win.johnshopkins.edu", 'port'=>636, 'encryption'=>{'method'=>:simple_tls}, 'auth'=>{'method'=>:simple, 'username'=>"cn=amorri63,ou=people,dc=win,dc=ad,dc=jhu,dc=edu", 'password'=>"CaptBiggles!"}}
+# puts tidy
+# puts tidy.to_yaml
 require 'awesome_print'
 require_relative 'ldap_lookup'
 looker = LdapLookup.new('development')
-ap looker.ldap_lookup('amorri63')
+ap looker.ldap_lookup('fsadiq1')

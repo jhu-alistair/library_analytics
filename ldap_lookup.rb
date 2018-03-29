@@ -6,28 +6,26 @@ require 'yaml'
 class LdapLookup
   # create the ldap connection
   def initialize(env)
-
-    ldap_connection_params = YAML.load(File.open('.config/ldap_connection.yaml'))[env]
+  ldap_connection_params = YAML.load(File.open('.config/ldap_connection.yaml'))[env]
     @ldap = Net::LDAP.new ldap_connection_params
+    @tree = YAML.load(File.open('.config/ldap_connection.yaml'))['treebase']
   end
 
   def ldap_lookup (id_value)
-    puts "LDAP2 = #{@ldap}"
-    puts "ID = #{id_value}"
+    # puts "LDAP2 = #{@ldap}"
+    # puts "ID = #{id_value}"
     filter = Net::LDAP::Filter.eq('uid', id_value)
-    treebase = 'ou=people,dc=win,dc=ad,dc=jhu,dc=edu'
     user = {}
-    attrs = %w[dn uid givenname sn mail telephonenumber edupersonaffiliation
-               edupersonorgunitdn jhejcardbarcode ou]
+    attrs = YAML.load(File.open('jhed_profile_schema.yaml')).keys
     @ldap.search(
-      base: treebase,
+      base: @tree,
       filter: filter,
       attributes: attrs,
       return_result: false
     ) do |entry|
-      puts "entry #{entry}"
+  #    puts "entry #{entry}"
       entry.each do |attribute, values|
-        puts "Values #{values}"
+      #  puts "Values #{values}"
         user[attribute.to_sym] = '' if attribute
         user[attribute.to_sym] += values.join(',') if values
       end
