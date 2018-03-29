@@ -35,3 +35,7 @@ ou:
   :required: N
   :data_type: string_fld
   :max_length: 255
+johnshopkinseduhopkinsid:
+  :required: N
+uid:
+  :required: N
