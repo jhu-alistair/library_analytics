@@ -7,12 +7,8 @@ class LdapLookup
   # create the ldap connection
   def initialize(env)
 
-ldap_connection_params = 'abc'
-
-    # ldap_connection_params = YAML.load(File.open('.config/ldap_connection.yaml'))[env]
+    ldap_connection_params = YAML.load(File.open('.config/ldap_connection.yaml'))[env]
     @ldap = Net::LDAP.new ldap_connection_params
-
-    ap @ldap
   end
 
   def ldap_lookup (id_value)
