@@ -1,0 +1,37 @@
+---
+eduPersonOrgdn:
+  :required: Y
+  :data_type: string_fld
+  :max_length: 255
+eduPersonOrgUnitdn:
+  :required: Y
+  :data_type: string_fld
+  :max_length: 255
+edupersonaffiliation:
+  :required: Y
+  :data_type: string_fld
+  :max_length: 255
+edupersonprimarycampus:
+  :required: Y
+  :data_type: string_fld
+  :max_length: 255
+jheISIScurrentlyenrolled:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+jheisisdegreesubtype1:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+jheisisdegreesubtype2:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+jheISISMajor:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+ou:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255

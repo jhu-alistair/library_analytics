@@ -1,0 +1,24 @@
+---
+import_hz_sample:
+  :include_jhed_profile: Y
+  :target_table:
+    :db_connection: lag_warehouse
+    :table_name: hz_sample
+    :table_fields:
+      lib_service:
+        :part_of_unique: Y
+        :data_type: text_fld
+        :max_string_length: 6
+      abc:
+        :part_of_unique: N
+        :import_source: abc
+        :data_type: text_fld
+        :max_string_length: 255
+  :source_table:
+    :db_connection: horizon
+    :table_name: sample_sample
+    :table_fields:
+      ID:
+        import: N
+      abc:
+        import: Y

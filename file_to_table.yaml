@@ -1,0 +1,136 @@
+---
+:target_tables:
+  ga_sessions:
+    :source_file:
+      :source_dir: "../data_transfer/import/"
+      :file_pattern: "ga_sessions*.csv"
+      :format: csv
+      :delimiters: FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
+      :comment_regex: \A\#
+    :target_fields:
+      lib_service:
+        :part_of_unique: Y
+      yr_month:
+        :part_of_unique: Y
+        :map_to_col: Month of Year
+        :import_value: yr_month = @yr_month
+      ga_page_views:
+        :part_of_unique: N
+        :map_to_col: Pageviews
+        :import_value: ga_page_views = REPLACE(@ga_page_views, ',', '')
+      ga_sessions:
+        :part_of_unique: N
+        :map_to_col: Sessions
+        :import_value: ga_sessions = REPLACE(@ga_sessions, ',', '')
+  ga_referrals:
+    :source_file:
+      :source_dir: "../data_transfer/import/"
+      :file_pattern: "ga_referrals*.csv"
+      :format: csv
+      :delimiters: FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
+      :comment_regex: \A\#
+    :target_fields:
+      lib_service:
+        :part_of_unique: Y
+      yr_month:
+        :part_of_unique: Y
+        :map_to_col: Month of Year
+        :import_value: yr_month = @yr_month
+      ga_medium:
+        :part_of_unique: Y
+        :map_to_col: Medium
+        :import_value: ga_medium = @ga_medium
+      ga_source:
+        :part_of_unique: Y
+        :map_to_col: Source
+        :import_value: ga_source = @ga_source
+      ga_sessions:
+        :part_of_unique: N
+        :map_to_col: Sessions
+        :import_value: ga_sessions = REPLACE(@ga_sessions, ',', '')
+      ga_pct_new_sessions:
+        :part_of_unique: N
+        :map_to_col: '% New Sessions'
+        :import_value: ga_pct_new_sessions = @ga_pct_new_sessions
+      ga_pct_bounce:
+        :part_of_unique: N
+        :map_to_col: Bounce Rate
+        :import_value: ga_pct_bounce = @ga_pct_bounce
+  ga_search_string_raw:
+    :source_file:
+      :source_dir: "../data_transfer/import/"
+      :file_pattern: "ga_search_string_raw*.csv"
+      :format: csv
+      :delimiters: FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
+      :comment_regex: \A\#
+    :target_fields:
+      lib_service:
+      yr_month:
+        :map_to_col: Month of Year
+        :import_value: yr_month = @yr_month
+      ga_search_string:
+        :map_to_col: Event Label
+        :import_value: ga_search_string = @ga_search_string
+      ga_search_count:
+        :map_to_col: Unique Events
+        :import_value: ga_search_count = REPLACE(@ga_search_count, ',', '')
+  bd_requests:
+    :source_file:
+      :source_dir: "../data_transfer/import/"
+      :file_pattern: "bd_requests*.csv"
+      :format: text
+      :delimiters: FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n'
+    :target_fields:
+      lib_service:
+        :part_of_unique: N
+      yr_month:
+        :part_of_unique: N
+        :import_value: yr_month = YEAR(str_to_date(@request_date,"%Y-%m-%d")) * 100 + MONTH(str_to_date(@request_date,"%Y-%m-%d"))
+      borrower:
+        :part_of_unique: N
+        :map_to_col: BORROWER
+        :import_value: borrower = @borrower
+      lender:
+        :part_of_unique: N
+        :map_to_col: LENDER
+        :import_value: lender = @lender
+      request_no:
+        :part_of_unique: Y
+        :map_to_col: REQUEST NUMBER
+        :import_value: request_no = @request_no
+      pickup_location:
+        :part_of_unique: N
+        :map_to_col: PICK UP LOCATION
+        :import_value: pickup_location = @pickup_location
+      request_date:
+        :part_of_unique: N
+        :map_to_col: REQUEST DATE
+        :import_value: request_date =  str_to_date(@request_date,"%Y-%m-%d")
+      ship_date:
+        :part_of_unique: N
+        :map_to_col: SHIP DATE
+        :import_value: ship_date = str_to_date(@ship_date,"%Y-%m-%d")
+      received_date:
+        :part_of_unique: N
+        :map_to_col: RECEIVED DATE
+        :import_value: received_date = str_to_date(@received_date,"%Y-%m-%d")
+      req_status:
+        :part_of_unique: N
+        :map_to_col: STATUS
+        :import_value: req_status = @req_status
+      shelving_location:
+        :part_of_unique: N
+        :map_to_col: SHELVING LOCATION
+        :import_value: shelving_location = @shelving_location
+      patron_type:
+        :part_of_unique: N
+        :map_to_col: PATRON TYPE
+        :import_value: patron_type = @patron_type
+      call_no:
+        :part_of_unique: N
+        :map_to_col: CALL NUMBER
+        :import_value: call_no = @call_no
+      local_item_found:
+        :part_of_unique: N
+        :map_to_col: LOCAL_ITEM_FOUND
+        :import_value: local_item_found = @local_item_found

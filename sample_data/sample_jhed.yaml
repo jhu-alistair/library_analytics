@@ -1,0 +1,60 @@
+---
+abc123:
+  eduPersonOrgUnitdn: Advanced Academic Programs - AS
+  edupersonaffiliation: Student
+  edupersonprimarycampus: Homewood Campus
+  jheISIScurrentlyenrolled: N
+  jheisisdegreesubtype1: AAP
+  jheisisdegreesubtype2: PGP
+  jheISISMajor: Bioinformatics
+  ou: Bioinformatics
+def123:
+  eduPersonOrgdn: The Johns Hopkins Medical Institutions
+  eduPersonOrgUnitdn: All Childrens Health System
+  edupersonaffiliation: Staff
+  edupersonprimarycampus: All Children's Hospital
+  jheISIScurrentlyenrolled: NULL
+  jheisisdegreesubtype1: NULL
+  jheisisdegreesubtype2: NULL
+  jheISISMajor: NULL
+  ou: Care Management Admin
+ghi123:
+  eduPersonOrgdn: The Johns Hopkins University
+  eduPersonOrgUnitdn: Advanced Academic Programs - AS
+  edupersonaffiliation: Student
+  edupersonprimarycampus: Washington DC Center
+  jheISIScurrentlyenrolled: Y
+  jheisisdegreesubtype1: AAP
+  jheisisdegreesubtype2: PGP
+  jheISISMajor: Applied Economics
+  ou: Applied Economics
+jkl123:
+  eduPersonOrgdn: The Johns Hopkins University
+  eduPersonOrgUnitdn: Advanced Academic Programs - AS
+  edupersonaffiliation: Student
+  edupersonprimarycampus: Other
+  jheISIScurrentlyenrolled: Y
+  jheisisdegreesubtype1: AAP
+  jheisisdegreesubtype2: PGP
+  jheISISMajor: Digital Curation
+  ou: Digital Curation
+mno123:
+  eduPersonOrgdn: The Johns Hopkins University
+  eduPersonOrgUnitdn: Engineering and Applied Science Programs for Professionals
+  edupersonaffiliation: Student
+  edupersonprimarycampus: APL Campus
+  jheISIScurrentlyenrolled: Y
+  jheisisdegreesubtype1: PTE
+  jheisisdegreesubtype2: MS
+  jheISISMajor: Applied Physics
+  ou: Applied Physics
+qrs123:
+  eduPersonOrgdn: The Johns Hopkins University
+  eduPersonOrgUnitdn: Peabody
+  edupersonaffiliation: Faculty
+  edupersonprimarycampus: Peabody Campus
+  jheISIScurrentlyenrolled: Y
+  jheisisdegreesubtype1: Public Health
+  jheisisdegreesubtype2: SS-LTD
+  jheISISMajor: Non-Departmental
+  ou: Faculty Conservatory
