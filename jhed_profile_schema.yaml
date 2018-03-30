@@ -11,7 +11,7 @@ edupersonaffiliation:
   :required: Y
   :data_type: string_fld
   :max_length: 255
-edupersonprimarycampus:
+jheprimarycampus:
   :required: Y
   :data_type: string_fld
   :max_length: 255
@@ -35,7 +35,11 @@ ou:
   :required: N
   :data_type: string_fld
   :max_length: 255
-johnshopkinseduhopkinsid:
+title:
   :required: N
-uid:
+  :data_type: string_fld
+  :max_length: 255
+department:
   :required: N
+  :data_type: string_fld
+  :max_length: 255

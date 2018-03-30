@@ -14,7 +14,7 @@ class LdapLookup
   def ldap_lookup (id_value)
     # puts "LDAP2 = #{@ldap}"
     # puts "ID = #{id_value}"
-    filter = Net::LDAP::Filter.eq('uid', id_value)
+   filter = Net::LDAP::Filter.eq('uid', id_value)
     user = {}
     attrs = YAML.load(File.open('jhed_profile_schema.yaml')).keys
     @ldap.search(
