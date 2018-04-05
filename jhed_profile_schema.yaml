@@ -27,7 +27,7 @@ jheisisdegreesubtype2:
   :required: N
   :data_type: string_fld
   :max_length: 255
-jheISISMajor:
+johnshopkinsedumajor:
   :required: N
   :data_type: string_fld
   :max_length: 255

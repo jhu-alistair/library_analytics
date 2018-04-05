@@ -38,4 +38,4 @@
 require 'awesome_print'
 require_relative 'ldap_lookup'
 looker = LdapLookup.new('development')
-ap looker.ldap_lookup('zkhan16')
+ap looker.ldap_lookup('asmit185')
