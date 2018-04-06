@@ -36,6 +36,7 @@
 # puts tidy
 # puts tidy.to_yaml
 require 'awesome_print'
-require_relative 'ldap_lookup'
-looker = LdapLookup.new('development')
-ap looker.ldap_lookup('asmit185')
+# require_relative 'ldap_lookup'
+require_relative 'getuserprofile'
+looker = GetUserProfile.new
+ap looker.ldap_lookup('djiao1')
