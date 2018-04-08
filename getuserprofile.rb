@@ -1,5 +1,6 @@
 # Retrieve JHED user profile field values based on
 # JHED ID
+require 'awesome_print'
 require 'json'
 require 'net/ldap'
 require 'yaml'
@@ -9,32 +10,34 @@ require_relative 'utilities'
 class GetUserProfile
   include FieldPrep
 
-  attr_accessor :jhed, :profile_fields
-  attr_accessor :retrieved_profile
-
   def initialize
-    ldap_config = YAML.load(File.open('.config/ldap_connection.yaml'))
-    @ldap = Net::LDAP.new ldap_config['active_env']
-    @tree = ldap_config['treebase']
+    yfile = YAML.load(File.open('.config/ldap_connection.yaml'))
+    @tree = yfile['treebase']
+    env = yfile['active_environment']
+    ldap_config = yfile[env]
+    @ldap = Net::LDAP.new ldap_config
   end
 
-  def ldap_lookup (id_value)
-    # puts "LDAP2 = #{@ldap}"
-    # puts "ID = #{id_value}"
-   filter = Net::LDAP::Filter.eq('uid', id_value)
+  def ldap_lookup (lkup_field, lkup_val)
+    # Add test for lkup_field is JHED (uid) or Hopkins ID
+    filter = Net::LDAP::Filter.eq(lkup_field, lkup_val)
     user = {}
-    attrs = YAML.load(File.open('jhed_profile_schema.yaml')).keys
+    schema = YAML.load(File.open('jhed_profile_schema.yaml'))
+    attrs = schema.keys
     @ldap.search(
       base: @tree,
       filter: filter,
       attributes: attrs,
       return_result: false
     ) do |entry|
-  #    puts "entry #{entry}"
       entry.each do |attribute, values|
-      #  puts "Values #{values}"
-        user[attribute.to_sym] = '' if attribute
-        user[attribute.to_sym] += values.join(',') if values
+        if attribute && values
+          value_str = values.join(',')
+          if attrs.include? attribute # skip over dn value returned by the ldap call
+            fld_params = schema[attribute]
+            user[attribute.to_sym] = validate_field(value_str, fld_params)
+          end
+        end
       end
     end
     user

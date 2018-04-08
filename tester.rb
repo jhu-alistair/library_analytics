@@ -39,4 +39,4 @@ require 'awesome_print'
 # require_relative 'ldap_lookup'
 require_relative 'getuserprofile'
 looker = GetUserProfile.new
-ap looker.ldap_lookup('djiao1')
+ap looker.ldap_lookup('uid', 'zkhan16')

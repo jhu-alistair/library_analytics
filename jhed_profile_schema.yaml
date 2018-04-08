@@ -1,45 +1,45 @@
 ---
-eduPersonOrgdn:
-  :required: Y
-  :data_type: string_fld
-  :max_length: 255
-eduPersonOrgUnitdn:
-  :required: Y
-  :data_type: string_fld
-  :max_length: 255
-edupersonaffiliation:
-  :required: Y
-  :data_type: string_fld
-  :max_length: 255
-jheprimarycampus:
-  :required: Y
-  :data_type: string_fld
-  :max_length: 255
-jheISIScurrentlyenrolled:
+:eduPersonOrgdn:
   :required: N
   :data_type: string_fld
   :max_length: 255
-jheisisdegreesubtype1:
+:eduPersonOrgUnitdn:
   :required: N
   :data_type: string_fld
   :max_length: 255
-jheisisdegreesubtype2:
+:edupersonaffiliation:
   :required: N
   :data_type: string_fld
   :max_length: 255
-johnshopkinsedumajor:
+:jheprimarycampus:
   :required: N
   :data_type: string_fld
   :max_length: 255
-ou:
+:jheISIScurrentlyenrolled:
   :required: N
   :data_type: string_fld
   :max_length: 255
-title:
+:jheisisdegreesubtype1:
   :required: N
   :data_type: string_fld
   :max_length: 255
-department:
+:jheisisdegreesubtype2:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+:johnshopkinsedumajor:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+:ou:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+:title:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+:department:
   :required: N
   :data_type: string_fld
   :max_length: 255
