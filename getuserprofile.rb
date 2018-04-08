@@ -31,12 +31,10 @@ class GetUserProfile
       return_result: false
     ) do |entry|
       entry.each do |attribute, values|
-        if attribute && values
-          value_str = values.join(',')
-          if attrs.include? attribute # skip over dn value returned by the ldap call
-            fld_params = schema[attribute]
-            user[attribute.to_sym] = validate_field(value_str, fld_params)
-          end
+        value_str = values.join(',')
+        if attrs.include? attribute # skip over dn value returned by the ldap call
+          fld_params = schema[attribute]
+          user[attribute.to_sym] = validate_field(value_str, fld_params)
         end
       end
     end
