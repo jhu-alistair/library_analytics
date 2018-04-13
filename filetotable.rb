@@ -97,5 +97,3 @@ class FileToTable
     @target_tables_params[tbl][:target_fields][fld][:import_value]
   end
 end
-
-module
