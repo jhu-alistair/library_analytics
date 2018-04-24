@@ -12,17 +12,18 @@ ap db_params
 
 sql = "SELECT
 circ.cko_location
-, lookup_location.[name] as location_name
+, lookup_location.[name] as cko_location_descr
 , itm.itype
 , lookup_itype.descr as itype_descr
-, lookup_collection.descr as collection
-, itm.[call_reconst] as call_number
+, lookup_collection.descr as itm_collection
+, itm.[call_reconst] as itm_call_number
 , itm.[call] as itm_sort_order
 , YEAR(dateadd(dd, circ.cko_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cko_date, '01-01-1970')) as cko_month
 , YEAR(dateadd(dd, circ.cki_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cki_date, '01-01-1970')) as cki_month
-, itm.bib# as bib_id
-, itm.ibarcode as barcode
-, isnull(lookup_title.title, '') AS 'title'
+, itm.item# as itm_id
+, itm.bib# as itm_bib_id
+, itm.ibarcode as itm_barcode
+, isnull(lookup_title.title, '') AS itm_title
 FROM circ_history AS circ
 , item AS itm
 , title_inverted as lookup_title

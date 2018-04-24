@@ -24,6 +24,7 @@ class GetUserProfile
     user = {}
     schema = YAML.load(File.open('jhed_profile_schema.yaml'))
     attrs = schema.keys
+#    ap attrs  #DEBUGGING
     @ldap.search(
       base: @tree,
       filter: filter,

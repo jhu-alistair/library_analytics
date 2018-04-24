@@ -40,3 +40,8 @@ require 'awesome_print'
 require_relative 'getuserprofile'
 looker = GetUserProfile.new
 ap looker.ldap_lookup('uid', 'zkhan16')
+# skhan80  Undergrad
+# zkhan16  Grad
+# amorri62 Grad
+# mjones37 APL
+# ksmit244 KSAS Undergrad

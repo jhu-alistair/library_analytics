@@ -1,9 +1,9 @@
 ---
-:eduPersonOrgdn:
+:edupersonorgdn:
   :required: N
   :data_type: string_fld
   :max_length: 255
-:eduPersonOrgUnitdn:
+:edupersonorgunitdn:
   :required: N
   :data_type: string_fld
   :max_length: 255
@@ -15,7 +15,7 @@
   :required: N
   :data_type: string_fld
   :max_length: 255
-:jheISIScurrentlyenrolled:
+:jheisiscurrentlyenrolled:
   :required: N
   :data_type: string_fld
   :max_length: 255
