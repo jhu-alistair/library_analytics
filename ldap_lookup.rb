@@ -11,10 +11,10 @@ class LdapLookup
     @tree = YAML.load(File.open('.config/ldap_connection.yaml'))['treebase']
   end
 
-  def ldap_lookup (id_value)
+  def ldap_lookup (id_field, id_value)
     # puts "LDAP2 = #{@ldap}"
     # puts "ID = #{id_value}"
-   filter = Net::LDAP::Filter.eq('uid', id_value)
+   filter = Net::LDAP::Filter.eq(id_field, id_value)
     user = {}
     attrs = YAML.load(File.open('jhed_profile_schema.yaml')).keys
     @ldap.search(

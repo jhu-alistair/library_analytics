@@ -5,7 +5,7 @@ require 'json'
 require 'net/ldap'
 require 'yaml'
 
-require_relative 'utilities'
+require_relative 'common'
 
 class GetUserProfile
   include FieldPrep
@@ -24,7 +24,7 @@ class GetUserProfile
     user = {}
     schema = YAML.load(File.open('jhed_profile_schema.yaml'))
     attrs = schema.keys
-#    ap attrs  #DEBUGGING
+    ap attrs  #DEBUGGING
     @ldap.search(
       base: @tree,
       filter: filter,

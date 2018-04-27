@@ -1,0 +1,6 @@
+require_relative 'common'
+
+source DbSource, :horizon, 'circ_history'
+transform AnonymizeHopkinsId
+
+show_me!
