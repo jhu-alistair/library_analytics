@@ -35,11 +35,14 @@
   :required: N
   :data_type: string_fld
   :max_length: 255
+  :rename: 'jhed_ou'
 :title:
   :required: N
   :data_type: string_fld
   :max_length: 255
+  :rename: 'jhed_title'
 :department:
   :required: N
   :data_type: string_fld
   :max_length: 255
+  :rename: 'jhed_department'

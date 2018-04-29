@@ -1,6 +1,14 @@
 require_relative 'common'
 
 source DbSource, :horizon, 'circ_history'
-transform AnonymizeHopkinsId
+
+transform do |row|
+  hopkins_id = row.fetch(:hopkins_id)
+  row.delete(:hopkins_id)
+  looker_upper = LdapLookup.new('johnshopkinseduhopkinsid', hopkins_id)
+  row.merge!(looker_upper.user_attribs)
+end
+
+# destination MyCsvDestination, 'testout.csv'
 
 show_me!

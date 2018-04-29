@@ -37,9 +37,10 @@
 # puts tidy.to_yaml
 require 'awesome_print'
 # require_relative 'ldap_lookup'
-require_relative 'getuserprofile'
-looker = GetUserProfile.new
-ap looker.ldap_lookup('johnshopkinseduhopkinsid', 'EC49AC')
+require_relative 'common'
+ap anonymize_hopkins_id
+# looker = GetUserProfile.new('johnshopkinseduhopkinsid', 'EC49AC')
+# ap looker.ldap_lookup
 # skhan80  Undergrad
 # zkhan16  Grad
 # amorri62 Grad

@@ -59,22 +59,10 @@ class DbSource
   end
 end
 
-class AnonymizeHopkinsId
-  def initialize
-    @user_attribs = {}
-  end
-
-  def process(row)
-    prfl = GetUserProfile.new
-    @user_attribs = prfl.ldap_lookup('johnshopkinseduhopkinsid', row['hopkins_id'])
-    row << @user_attribs
-    row
-  end
-end
-
-class GetUserProfile
-
-  def initialize
+class LdapLookup
+  def initialize(lkup_field, lkup_val)
+    @lkup_field = lkup_field
+    @lkup_val = lkup_val
     yfile = YAML.load(File.open('.config/ldap_connection.yaml'))
     @tree = yfile['treebase']
     env = yfile['active_environment']
@@ -82,13 +70,13 @@ class GetUserProfile
     @ldap = Net::LDAP.new ldap_config
   end
 
-  def ldap_lookup (lkup_field, lkup_val)
+  def user_attribs
     # Add test for lkup_field is JHED (uid) or Hopkins ID
-    filter = Net::LDAP::Filter.eq(lkup_field, lkup_val)
+    filter = Net::LDAP::Filter.eq(@lkup_field, @lkup_val)
     user = {}
     schema = YAML.load(File.open('jhed_profile_schema.yaml'))
     attrs = schema.keys
-    ap attrs  #DEBUGGING
+  #  ap attrs  #DEBUGGING
     @ldap.search(
       base: @tree,
       filter: filter,
@@ -99,6 +87,7 @@ class GetUserProfile
         value_str = values.join(',')
         if attrs.include? attribute # skip over dn value returned by the ldap call
           fld_params = schema[attribute]
+          attribute = schema[attribute][:rename] unless schema[attribute][:rename].nil?
           user[attribute.to_sym] = validate_field(value_str, fld_params)
         end
       end
@@ -145,25 +134,33 @@ class VerifyFieldsPresence
   end
 end
 
-class CsvDestination
-  def initialize(file, output_fields)
-    @csv = CSV.open(file, 'w')
-    @output_fields = output_fields
+class RenameField
+  def initialize(from:, to:)
+    @from = from
+    @to = to
+  end
 
-    @csv << @output_fields
+  def process(row)
+    row[@to] = row.delete(@from)
+    row
+  end
+end
+
+# simple destination assuming all rows have the same fields
+class MyCsvDestination
+  attr_reader :output_file
+
+  def initialize(output_file)
+    @output_file = output_file
   end
 
   def write(row)
-    verify_row!(row)
-    @csv << row.values_at(*@output_fields) #*
-  end
-
-  def verify_row!(row)
-    missing_fields = @output_fields - [row.keys & @output_fields].flatten
-
-    if missing_fields.size > 0
-      raise "Row lacks required field(s) #{missing_fields}\n#{row}"
+    @csv ||= CSV.open(output_file, 'w')
+    unless @headers_written
+      @headers_written = true
+      @csv << row.keys
     end
+    @csv << row.values
   end
 
   def close

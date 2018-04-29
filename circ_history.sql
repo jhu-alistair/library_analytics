@@ -1,4 +1,4 @@
-SELECT
+SELECT top 5
  brw.second_id as hopkins_id
 , circ.cko_location
 , lookup_location.[name] as cko_location_descr
