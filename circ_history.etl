@@ -1,14 +1,18 @@
 require_relative 'common'
-#import both schemas here?
+
+#import field list and field attributes from yaml files
+jhed_schema = YAML.load(File.open('jhed_schema.yaml'))
+# ADD circ_history schema here
+
 
 source DbSource, :horizon, 'circ_history'
-transform Anonymize, fld_name: :hopkins_id
-transform RenameField, from: :ou, to: :jhed_ou
-transform RenameField, from: :title, to: :jhed_title
-transform RenameField, from: :department, to: :jhed_department
-# turn these renames into procdure that reads the schema?
 
-# Add field validation
+transform Anonymize, fld_name: :hopkins_id
+transform RenameFields, schema: jhed_schema
+# transform ValidateValues, schema: jhed_schema
+# transform ValidateValues, schema: circ_history_schema
+
+
 # user[attribute.to_sym] = validate_field_values(value_str, fld_params)
 
 # transform do |row|

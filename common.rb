@@ -130,17 +130,34 @@ class VerifyFieldsPresence
   end
 end
 
-class RenameField
-  def initialize(from:, to:)
-    @from = from
-    @to = to
+class RenameFields
+  def initialize(schema:)
+    @ren = {}
+    schema.each do |key, value|
+      @ren[key] = value[:rename] if value.keys.include?(:rename)
+    end
   end
 
   def process(row)
-    row[@to] = row.delete(@from)
+    @ren.each do |old_key, new_key|
+      row[new_key.to_sym] = row.delete(old_key)
+    end
     row
   end
 end
+
+
+# class RenameField
+#   def initialize(from:, to:)
+#     @from = from
+#     @to = to
+#   end
+#
+#   def process(row)
+#     row[@to] = row.delete(@from)
+#     row
+#   end
+# end
 
 # simple destination assuming all rows have the same fields
 class MyCsvDestination

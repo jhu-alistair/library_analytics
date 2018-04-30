@@ -36,9 +36,12 @@
 # puts tidy
 # puts tidy.to_yaml
 require 'awesome_print'
+require_relative 'schema_reader'
+rdr = SchemaReader.new
+ap rdr.fields_to_rename
 # require_relative 'ldap_lookup'
-require_relative 'common'
-ap anonymize_hopkins_id
+#require_relative 'common'
+# ap anonymize_hopkins_id
 # looker = GetUserProfile.new('johnshopkinseduhopkinsid', 'EC49AC')
 # ap looker.ldap_lookup
 # skhan80  Undergrad
