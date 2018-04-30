@@ -1,0 +1,50 @@
+---
+:cko_location:
+  :required: N
+  :data_type: string_fld
+  :max_length: 10
+:cko_location_descr:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+:itype:
+  :required: N
+  :data_type: string_fld
+  :max_length: 10
+:itype_descr:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+:itm_collection:
+  :required: N
+  :data_type: string_fld
+  :max_length: 10
+:itm_collection_descr:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255
+:itm_call_number:
+  :required: N
+  :data_type: string_fld
+  :max_length: 100
+:itm_sort_order:
+  :required: N
+  :data_type: string_fld
+  :max_length: 100
+:cko_month:
+  :required: N
+  :data_type: integer_fld
+:cki_month:
+  :required: N
+  :data_type: integer_fld
+:itm_bib_id:
+  :required: N
+  :data_type: integer_fld
+:itm_barcode:
+  :required: N
+  :data_type: string_fld
+  :max_length: 15
+:itm_title:
+  :required: N
+  :data_type: string_fld
+  :max_length: 255

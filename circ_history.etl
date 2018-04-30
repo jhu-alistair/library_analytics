@@ -1,13 +1,22 @@
 require_relative 'common'
+#import both schemas here?
 
 source DbSource, :horizon, 'circ_history'
+transform Anonymize, fld_name: :hopkins_id
+transform RenameField, from: :ou, to: :jhed_ou
+transform RenameField, from: :title, to: :jhed_title
+transform RenameField, from: :department, to: :jhed_department
+# turn these renames into procdure that reads the schema?
 
-transform do |row|
-  hopkins_id = row.fetch(:hopkins_id)
-  row.delete(:hopkins_id)
-  looker_upper = LdapLookup.new('johnshopkinseduhopkinsid', hopkins_id)
-  row.merge!(looker_upper.user_attribs)
-end
+# Add field validation
+# user[attribute.to_sym] = validate_field_values(value_str, fld_params)
+
+# transform do |row|
+#   hopkins_id = row.fetch(:hopkins_id)
+#   row.delete(:hopkins_id)
+#   looker_upper = LdapLookup.new('johnshopkinseduhopkinsid', hopkins_id)
+#   row.merge!(looker_upper.user_attribs)
+# end
 
 # destination MyCsvDestination, 'testout.csv'
 

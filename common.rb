@@ -59,46 +59,42 @@ class DbSource
   end
 end
 
-class LdapLookup
-  def initialize(lkup_field, lkup_val)
-    @lkup_field = lkup_field
-    @lkup_val = lkup_val
-    yfile = YAML.load(File.open('.config/ldap_connection.yaml'))
-    @tree = yfile['treebase']
-    env = yfile['active_environment']
-    ldap_config = yfile[env]
-    @ldap = Net::LDAP.new ldap_config
+class Anonymize
+  def initialize(fld_name:)
+    @fld_name = fld_name
+    @ldap_key = :uid
+    @ldap_key = :johnshopkinseduhopkinsid if fld_name == :hopkins_id
   end
 
-  def user_attribs
-    # Add test for lkup_field is JHED (uid) or Hopkins ID
-    filter = Net::LDAP::Filter.eq(@lkup_field, @lkup_val)
-    user = {}
-    schema = YAML.load(File.open('jhed_profile_schema.yaml'))
+  def process(row)
+    lkup_val = row[@fld_name]
+    row.delete(@fld_name)
+    yfile = YAML.load(File.open('.config/ldap_connection.yaml'))
+    tree = yfile['treebase']
+    env = yfile['active_environment']
+    ldap_config = yfile[env]
+    ldap = Net::LDAP.new ldap_config
+    filter = Net::LDAP::Filter.eq(@ldap_key, lkup_val)
+    schema = YAML.load(File.open('jhed_schema.yaml'))
     attrs = schema.keys
-  #  ap attrs  #DEBUGGING
-    @ldap.search(
-      base: @tree,
+    ldap.search(
+      base: tree,
       filter: filter,
       attributes: attrs,
       return_result: false
     ) do |entry|
       entry.each do |attribute, values|
         value_str = values.join(',')
-        if attrs.include? attribute # skip over dn value returned by the ldap call
-          fld_params = schema[attribute]
-          attribute = schema[attribute][:rename] unless schema[attribute][:rename].nil?
-          user[attribute.to_sym] = validate_field(value_str, fld_params)
-        end
+        row[attribute.to_sym] = value_str
       end
     end
-    user
+    row.delete(:dn)
+    row
   end
 end
 
-
 # Yep
-def validate_field (fld_value, fld_params)
+def validate_field_values (fld_value, fld_params)
   if fld_params
     case fld_params[:data_type]
       when "integer_fld"
@@ -110,7 +106,7 @@ def validate_field (fld_value, fld_params)
       when "date_fld"
         return fld_value.to_date
       else
-        # throw an error for unrecognized data type
+        return fld_value
     end
   else
     return fld_value

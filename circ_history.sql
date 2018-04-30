@@ -4,7 +4,8 @@ SELECT top 5
 , lookup_location.[name] as cko_location_descr
 , itm.itype
 , lookup_itype.descr as itype_descr
-, lookup_collection.descr as itm_collection
+, itm.collection as itm_collection
+, lookup_collection.descr as itm_collection_descr
 , itm.[call_reconst] as itm_call_number
 , itm.[call] as itm_sort_order
 , YEAR(dateadd(dd, circ.cko_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cko_date, '01-01-1970')) as cko_month
