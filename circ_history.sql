@@ -6,7 +6,7 @@ SELECT top 5
 , lookup_itype.descr as itype_descr
 , itm.collection as itm_collection
 , lookup_collection.descr as itm_collection_descr
-, itm.[call_reconst] as itm_call_number
+, itm.[call_reconstructed] as itm_call_number
 , itm.[call] as itm_sort_order
 , YEAR(dateadd(dd, circ.cko_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cko_date, '01-01-1970')) as cko_month
 , YEAR(dateadd(dd, circ.cki_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cki_date, '01-01-1970')) as cki_month
