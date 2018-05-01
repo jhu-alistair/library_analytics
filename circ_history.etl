@@ -4,13 +4,21 @@ require_relative 'common'
 jhed_schema = YAML.load(File.open('jhed_schema.yaml'))
 circ_history_schema = YAML.load(File.open('circ_history_schema.yaml'))
 
-source DbSource, :horizon, 'circ_history'
+source DbSource, db_conn: :horizon, sql: 'circ_history.sql'
 
 transform Anonymize, fld_name: :hopkins_id
 transform ValidateValues, schema: jhed_schema
 transform ValidateValues, schema: circ_history_schema
 transform RenameFields, schema: jhed_schema
 
-# destination MyCsvDestination, 'testout.csv'
+# destination AppendToDB, db_conn: :lag_warehouse, db_table: 'circ_history'
 
+
+# destination MyCsvDestination, 'testout.csv'
+#
+# # before declaring a destination, maybe you'll want to retrieve credentials
+# config = YAML.load(IO.read('config.yml'))
+#
+# # declare a destination - like source, you implement it (see below)
+#
 show_me!

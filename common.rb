@@ -18,7 +18,6 @@ end
 # read in a text file holding an sql expression
 #  only works for files with .sql extension
 def get_sql(fname)
-  fname << '.sql'
   sql = ''
   File.readlines(fname).each do |ln|
     sql << ln.chomp
@@ -41,13 +40,11 @@ class CsvSource
 end
 
 class DbSource
-  def initialize(db_conn, sql)
-    @db_conn = db_conn
+  def initialize(db_conn:, sql:)
     @sql = get_sql(sql)
-    puts "DbSource"
     yfile = YAML.load(File.open('.config/db_connections.yaml'))
     env = yfile[:active_env]
-    @db_params = yfile[@db_conn][env]
+    @db_params = yfile[db_conn][env]
   end
 
   def each
@@ -58,6 +55,20 @@ class DbSource
     end
   end
 end
+
+class AppendToDB
+  def initialize(db_conn:, db_table:)
+    @tbl = db_table
+    yfile = YAML.load(File.open('.config/db_connections.yaml'))
+    env = yfile[:active_env]
+    @db_params = yfile[db_conn][env]
+  end
+
+  def write(row)
+    trgt = Sequel.connect(@db_params)
+  end
+end
+
 
 class Anonymize
   def initialize(fld_name:)
@@ -150,19 +161,6 @@ class RenameFields
     row
   end
 end
-
-
-# class RenameField
-#   def initialize(from:, to:)
-#     @from = from
-#     @to = to
-#   end
-#
-#   def process(row)
-#     row[@to] = row.delete(@from)
-#     row
-#   end
-# end
 
 # simple destination assuming all rows have the same fields
 class MyCsvDestination
