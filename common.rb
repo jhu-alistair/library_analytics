@@ -93,27 +93,32 @@ class Anonymize
   end
 end
 
-# Yep
-def validate_field_values (fld_value, fld_params)
-  if fld_params
-    case fld_params[:data_type]
-      when "integer_fld"
-        return fld_value.to_i
-      when "float_fld"
-        return fld_value.to_f
-      when "string_fld"
-        return fld_value.to_s[0, fld_params[:max_length]]
-      when "date_fld"
-        return fld_value.to_date
-      else
-        return fld_value
+class ValidateValues
+  def initialize(schema:)
+    @schema = schema
+  end
+
+  def process(row)
+    @schema.each do |fld, params|
+
+      fld_val = row[fld]
+
+      if (fld_val && params)
+        case params[:data_type]
+        when 'integer_fld'
+          row[fld] = fld_val.to_i
+        when 'float_fld'
+          row[fld] = fld_val.to_f
+        when 'string_fld'
+          row[fld] = fld_val.to_s[0, params[:max_length]]
+        when 'date_fld'
+          row[fld] = fld_val.to_date
+        end
+      end
     end
-  else
-    return fld_value
+    row
   end
 end
-
-
 
 class VerifyFieldsPresence
   def initialize(expected_fields)

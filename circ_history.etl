@@ -2,25 +2,14 @@ require_relative 'common'
 
 #import field list and field attributes from yaml files
 jhed_schema = YAML.load(File.open('jhed_schema.yaml'))
-# ADD circ_history schema here
-
+circ_history_schema = YAML.load(File.open('circ_history_schema.yaml'))
 
 source DbSource, :horizon, 'circ_history'
 
 transform Anonymize, fld_name: :hopkins_id
+transform ValidateValues, schema: jhed_schema
+transform ValidateValues, schema: circ_history_schema
 transform RenameFields, schema: jhed_schema
-# transform ValidateValues, schema: jhed_schema
-# transform ValidateValues, schema: circ_history_schema
-
-
-# user[attribute.to_sym] = validate_field_values(value_str, fld_params)
-
-# transform do |row|
-#   hopkins_id = row.fetch(:hopkins_id)
-#   row.delete(:hopkins_id)
-#   looker_upper = LdapLookup.new('johnshopkinseduhopkinsid', hopkins_id)
-#   row.merge!(looker_upper.user_attribs)
-# end
 
 # destination MyCsvDestination, 'testout.csv'
 
