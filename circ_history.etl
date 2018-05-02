@@ -11,14 +11,6 @@ transform ValidateValues, schema: jhed_schema
 transform ValidateValues, schema: circ_history_schema
 transform RenameFields, schema: jhed_schema
 
-# destination AppendToDB, db_conn: :lag_warehouse, db_table: 'circ_history'
+destination AppendToDB, db_conn: :lag_warehouse, db_table: :hz_circ_history
 
-
-# destination MyCsvDestination, 'testout.csv'
-#
-# # before declaring a destination, maybe you'll want to retrieve credentials
-# config = YAML.load(IO.read('config.yml'))
-#
-# # declare a destination - like source, you implement it (see below)
-#
-show_me!
+# show_me!

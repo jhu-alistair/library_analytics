@@ -1,4 +1,4 @@
-SELECT top 5
+SELECT
  brw.second_id as hopkins_id
 , circ.cko_location
 , lookup_location.[name] as cko_location_descr
@@ -26,5 +26,5 @@ SELECT top 5
  AND itm.itype = lookup_itype.itype
  AND itm.bib# = lookup_title.bib#
  AND itm.collection = lookup_collection.collection
- AND YEAR(dateadd(dd, circ.cki_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cki_date, '01-01-1970')) >= 201804
+ AND YEAR(dateadd(dd, circ.cki_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cki_date, '01-01-1970')) > 201800
  AND itm.itype NOT IN ('elocker')

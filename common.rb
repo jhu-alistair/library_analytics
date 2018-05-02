@@ -3,6 +3,7 @@ require 'awesome_print'
 require 'csv'
 require 'facets/kernel/blank'
 require 'json'
+require 'mysql2'
 require 'sequel'
 require 'net/ldap'
 require 'yaml'
@@ -45,6 +46,7 @@ class DbSource
     yfile = YAML.load(File.open('.config/db_connections.yaml'))
     env = yfile[:active_env]
     @db_params = yfile[db_conn][env]
+    @row_cnt = 0
   end
 
   def each
@@ -52,6 +54,7 @@ class DbSource
     src_ds = src[@sql]
     src_ds.each do |row|
       yield(row.to_hash)
+      puts "source count = #{@row_cnt +=1}"
     end
   end
 end
@@ -66,6 +69,8 @@ class AppendToDB
 
   def write(row)
     trgt = Sequel.connect(@db_params)
+    trgt_ds = trgt[@tbl]
+    trgt_ds.insert(row)
   end
 end
 
@@ -96,10 +101,9 @@ class Anonymize
     ) do |entry|
       entry.each do |attribute, values|
         value_str = values.join(',')
-        row[attribute.to_sym] = value_str
+        row[attribute.to_sym] = value_str unless attribute == :dn
       end
     end
-    row.delete(:dn)
     row
   end
 end

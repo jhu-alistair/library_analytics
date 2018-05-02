@@ -1,21 +1,18 @@
 require 'sequel'
 require 'mysql2'
-require 'awesome_print'
-#require 'tiny_tds'
+require 'yaml'
 
+@tbl = :lookup_lib_service
+db_conn = :lag_warehouse
+yfile = YAML.load(File.open('.config/db_connections.yaml'))
+env = yfile[:active_env]
+@db_params = yfile[db_conn][env]
 
-params = {
-  adapter: 'mysql2',
-  host: 'db',
-  port: 3306,
-  database: "db_analytics",
-  username: "root",
-  password: "password"
-}
+trgt = Sequel.connect(@db_params)
 
-db = Sequel.connect params
+trgt_ds = trgt[@tbl]
 
-sessions = db[:ga_sessions].limit(10)
-sessions.each do |sess|
-  ap sess
-end
+myrow = {:ID=>"test12", :descrip=>"Delete me, please"}
+puts myrow
+
+trgt_ds.insert(myrow)
