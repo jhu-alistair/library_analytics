@@ -41,36 +41,40 @@ class CsvSource
 end
 
 class DbSource
-  def initialize(db_conn:, sql:)
-    @sql = get_sql(sql)
+  def initialize(db_conn:, sql_file:)
     yfile = YAML.load(File.open('.config/db_connections.yaml'))
     env = yfile[:active_env]
-    @db_params = yfile[db_conn][env]
-    @row_cnt = 0
+    src = Sequel.connect(yfile[db_conn][env])
+    @src_ds = src[get_sql(sql_file)]
   end
 
   def each
-    src = Sequel.connect(@db_params)
-    src_ds = src[@sql]
-    src_ds.each do |row|
-      yield(row.to_hash)
-      puts "source count = #{@row_cnt +=1}"
-    end
+      @src_ds.each do |row|
+        begin
+          yield(row.to_hash)
+        rescue Sequel::Error
+          puts $ERROR_INFO.message
+          ap row
+        end
+      end
   end
 end
 
 class AppendToDB
   def initialize(db_conn:, db_table:)
-    @tbl = db_table
     yfile = YAML.load(File.open('.config/db_connections.yaml'))
     env = yfile[:active_env]
-    @db_params = yfile[db_conn][env]
+    trgt = Sequel.connect(yfile[db_conn][env])
+    @trgt_ds = trgt[db_table]
   end
 
   def write(row)
-    trgt = Sequel.connect(@db_params)
-    trgt_ds = trgt[@tbl]
-    trgt_ds.insert(row)
+    begin
+      @trgt_ds.insert(row)
+    rescue Sequel::Error
+      puts $ERROR_INFO.message
+      ap row
+    end
   end
 end
 
@@ -126,6 +130,7 @@ class ValidateValues
           row[fld] = fld_val.to_f
         when 'string_fld'
           row[fld] = fld_val.to_s[0, params[:max_length]]
+          row[fld].encode!(params[:encoding], :invalid => :replace, :undef => :replace, :replace => "?") if params[:encoding]
         when 'date_fld'
           row[fld] = fld_val.to_date
         end

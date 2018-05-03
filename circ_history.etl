@@ -4,13 +4,13 @@ require_relative 'common'
 jhed_schema = YAML.load(File.open('jhed_schema.yaml'))
 circ_history_schema = YAML.load(File.open('circ_history_schema.yaml'))
 
-source DbSource, db_conn: :horizon, sql: 'circ_history.sql'
+source DbSource, db_conn: :horizon, sql_file: 'circ_history.sql'
 
 transform Anonymize, fld_name: :hopkins_id
 transform ValidateValues, schema: jhed_schema
 transform ValidateValues, schema: circ_history_schema
 transform RenameFields, schema: jhed_schema
 
-destination AppendToDB, db_conn: :lag_warehouse, db_table: :hz_circ_history
+# destination AppendToDB, db_conn: :lag_warehouse, db_table: :hz_circ_history
 
-# show_me!
+show_me!

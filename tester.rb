@@ -35,17 +35,6 @@
 # tidy = {'host'=>"win.johnshopkins.edu", 'port'=>636, 'encryption'=>{'method'=>:simple_tls}, 'auth'=>{'method'=>:simple, 'username'=>"cn=amorri63,ou=people,dc=win,dc=ad,dc=jhu,dc=edu", 'password'=>"CaptBiggles!"}}
 # puts tidy
 # puts tidy.to_yaml
-require 'awesome_print'
-require_relative 'schema_reader'
-rdr = SchemaReader.new
-ap rdr.fields_to_rename
-# require_relative 'ldap_lookup'
-#require_relative 'common'
-# ap anonymize_hopkins_id
-# looker = GetUserProfile.new('johnshopkinseduhopkinsid', 'EC49AC')
-# ap looker.ldap_lookup
-# skhan80  Undergrad
-# zkhan16  Grad
-# amorri62 Grad
-# mjones37 APL
-# ksmit244 KSAS Undergrad
+# require 'awesome_print'
+require_relative 'common'
+anon = Anonymize.new()

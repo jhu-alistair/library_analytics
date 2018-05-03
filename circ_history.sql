@@ -12,11 +12,11 @@ SELECT
 , YEAR(dateadd(dd, circ.cki_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cki_date, '01-01-1970')) as cki_month
 , itm.bib# as itm_bib_id
 , itm.ibarcode as itm_barcode
-, isnull(lookup_title.title, '') AS itm_title
+, isnull(lookup_title.processed, '') AS itm_title
  FROM circ_history AS circ
 , borrower as brw
 , item AS itm
-, title_inverted as lookup_title
+, title as lookup_title
 , location as lookup_location
 , itype as lookup_itype
 , collection as lookup_collection
@@ -27,4 +27,5 @@ SELECT
  AND itm.bib# = lookup_title.bib#
  AND itm.collection = lookup_collection.collection
  AND YEAR(dateadd(dd, circ.cki_date, '01-01-1970')) *100 + MONTH(dateadd(dd, circ.cki_date, '01-01-1970')) > 201800
+ AND itm.ibarcode = '31857001094867'
  AND itm.itype NOT IN ('elocker')

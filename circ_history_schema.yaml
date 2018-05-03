@@ -48,3 +48,4 @@
   :required: N
   :data_type: string_fld
   :max_length: 255
+  :encoding: UTF-8
