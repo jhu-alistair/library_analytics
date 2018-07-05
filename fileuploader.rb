@@ -1,6 +1,8 @@
 # File Uploader
 # encoding: UTF-8
 
+# a new comment
+
 require 'fileutils'
 require 'logger'
 require 'mysql2'
